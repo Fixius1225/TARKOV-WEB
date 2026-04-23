@@ -147,10 +147,14 @@
       STATUS.textContent = items.length ? `Mostrando ${items.length} items (${currentFilter}${searchTerm ? ' · búsqueda: "' + searchTerm + '"' : ''})` : 'No se encontraron items';
       ITEMS_CONTAINER.innerHTML = items.map(it => `
         <div class="card">
-          <h2><strong>${escapeHtml(it.name || '—')}</strong></h2>
-          <p><small>${escapeHtml(it.shortName || '')} (id: ${escapeHtml(it.id || '')})</small></p>
+          <a href="item.html?id=${encodeURIComponent(it.id)}">
+            <strong>${escapeHtml(it.name || '—')}</strong>
+          </a><br/>
+
+          <small>${escapeHtml(it.shortName || '')}</small>
+
           <div class="item-icon">
-            <img src="${escapeHtml(it.iconLink)}" alt="">
+            <img src="${escapeHtml(it.iconLink || '')}">
           </div>
         </div>
       `).join('');
