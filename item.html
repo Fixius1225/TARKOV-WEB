@@ -1,0 +1,98 @@
+<!-- item.html -->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Item Detail</title>
+  <style>
+    body { font-family: Arial; margin:16px; background:#f7f7f7 }
+    .card { background:white; padding:16px; border-radius:8px }
+    img { width:120px; height:120px; object-fit:contain }
+    a { display:inline-block; margin-bottom:10px }
+  </style>
+</head>
+<body>
+
+<a href="index.html">← Volver</a>
+
+<div id="status">Cargando...</div>
+<div id="item"></div>
+
+<script>
+const STATUS = document.getElementById('status');
+const ITEM_CONTAINER = document.getElementById('item');
+
+// obtener ID desde URL
+const params = new URLSearchParams(window.location.search);
+const itemId = params.get('id');
+
+if (!itemId) {
+  STATUS.textContent = 'No se proporcionó ID';
+} else {
+  fetchItem(itemId);
+}
+
+async function fetchItem(id) {
+  try {
+    const query = `
+    {
+      item(id: "${id}") {
+        id
+        name
+        shortName
+        description
+        iconLink
+        link
+      }
+    }`;
+
+    const res = await fetch('https://api.tarkov.dev/graphql', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query })
+    });
+
+    const json = await res.json();
+    const item = json.data?.item;
+
+    if (!item) {
+      STATUS.textContent = 'Item no encontrado';
+      return;
+    }
+
+    renderItem(item);
+
+  } catch (err) {
+    STATUS.textContent = 'Error: ' + err.message;
+  }
+}
+
+function renderItem(it) {
+  STATUS.textContent = '';
+
+  ITEM_CONTAINER.innerHTML = `
+    <div class="card">
+      <h2>${escapeHtml(it.name)}</h2>
+      <p><strong>${escapeHtml(it.shortName)}</strong></p>
+
+      <img src="${escapeHtml(it.iconLink || '')}">
+
+      <p>${escapeHtml(it.description || 'Sin descripción')}</p>
+
+      <a href="${escapeHtml(it.link)}" target="_blank">
+        Ver en wiki
+      </a>
+    </div>
+  `;
+}
+
+function escapeHtml(str) {
+  return String(str || '').replace(/[&<>"']/g, s =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s])
+  );
+}
+</script>
+
+</body>
+</html>
