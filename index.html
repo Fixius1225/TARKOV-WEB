@@ -24,8 +24,11 @@
     <div class="card">
       <div class="row">
         <div class="col-10">
-          <h2><strong>Colt M4A1 5.56x45 assault rifle</strong></h2>
-          <p><small>M4A1 (id: 5447a9cd4bdc2dbd208b4567)</small></p>
+          <a href="item.html">
+            <h2><strong>Colt M4A1 5.56x45 assault rifle</strong></h2>
+          </a>
+          
+          <p><small>M4A1</small></p>
         </div>  
         <div class="item-icon col d-flex justify-content-center">
             <img src="prueba.webp" class="item-img" alt="">
@@ -117,6 +120,13 @@
             name
             shortName
             iconLink
+            basePrice
+            avg24hprice
+            sellFor {
+              price
+              currency
+              priceRUB
+            }
           }
         }`;
 
@@ -147,16 +157,29 @@
       STATUS.textContent = items.length ? `Mostrando ${items.length} items (${currentFilter}${searchTerm ? ' · búsqueda: "' + searchTerm + '"' : ''})` : 'No se encontraron items';
       ITEMS_CONTAINER.innerHTML = items.map(it => `
         <div class="card">
-          <a href="item.html?id=${encodeURIComponent(it.id)}">
-            <strong>${escapeHtml(it.name || '—')}</strong>
-          </a><br/>
-
-          <small>${escapeHtml(it.shortName || '')}</small>
-
-          <div class="item-icon">
-            <img src="${escapeHtml(it.iconLink || '')}">
+          <div class="row">
+            <div class="col-10">
+              <a href="item.html?id=${encodeURIComponent(it.id)}">
+                <h2><strong>${escapeHtml(it.name || '—')}</strong></h2>
+              </a>
+              
+              <p><small>${escapeHtml(it.shortName || '')}</small></p>
+            </div>  
+            <div class="item-icon col d-flex justify-content-center">
+                <img src="${escapeHtml(it.iconLink || '')}" class="item-img" alt="">
+            </div>
           </div>
-        </div>
+          <div class="row">
+            <h2>${mainRubPrice ? formatRUB(mainRubPrice : 'sin precio')}</h2>
+              ${
+                euroPrice
+                  ? '<p>${formatEUR(euroPrice.price)}</p>'
+                  : estimatedEuro
+                    ? '<p>${formatEUR(estimatedEuro)}</p>'
+                    : ''
+              }
+          </div>
+        </div>  
       `).join('');
     }
 
@@ -196,6 +219,35 @@
 
       return filtered;
     }
+
+
+    // funcion para poner precio en euros
+    function formatEUR(value) {
+      return new
+      Intl.NumberFormat('es-ES', {
+        style:'currency',
+        currency: 'EUR',
+        maximumFractionDigits: 0
+      }).format(value);
+    }
+
+    function formatRUB(value) {
+      return new
+      Intl.NumberFormat('es-ES', {
+        maximumFractionDigits: 0
+      }).format(value) + '₽';
+    }
+
+    function getEuroPrices(item) {
+      if (!item.sellFor || !item.sellFor.length) return null;
+      return item.sellFor.find(p => p.currency === 'EUR') || null;
+    }
+    function estimatedEuroFromRub(rubValue) {
+      const RUB_PER_EUR = 88.67;
+      if (!rubValue) return null;
+      return rubValue / RUB_PER_EUR;
+    }
+
 
     
     function escapeHtml(str) {
