@@ -13,6 +13,11 @@
   --panel-bg: #111213;
 }
 
+header{
+  text-decoration: none;
+  list-style-type: none;
+}
+
 body { 
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
   background-color: var(--bg-color);
