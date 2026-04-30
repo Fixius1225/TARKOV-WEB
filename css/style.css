@@ -228,3 +228,29 @@ a[href="index.html"]:hover {
   animation: loading 1.5s infinite;
 }
 
+/* =========================================
+   MODO CLARO (SOBREESCRITURA)
+   ========================================= */
+body.light-theme {
+  --bg-color: #e0e0e0;
+  --card-bg: #ffffff;
+  --panel-bg: #d6d6d6;
+  --text-main: #1a1a1b;
+  --text-dim: #4a4a4a;
+  --border-color: #b0b0b0;
+  --accent: #6b5e3a; /* Un dorado más oscuro para contraste */
+  --accent-glow: rgba(0, 0, 0, 0.1);
+}
+
+/* Ajuste para el input en modo claro */
+body.light-theme #search {
+  background: #f5f5f5;
+  color: #000;
+}
+
+/* Ajuste para botones de filtro en modo claro */
+body.light-theme .filter-btn {
+  background: #cccccc;
+  color: #333;
+}
+

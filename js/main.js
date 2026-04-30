@@ -154,4 +154,35 @@ if (ITEM_DETAIL_CONTAINER) {
       </div>
     `;
   }
+
+
+
 }
+
+// ==========================================
+// LÓGICA DE CAMBIO DE TEMA
+// ==========================================
+//NO CAMBIA
+const themeBtn = document.getElementById('theme-toggle');
+const currentTheme = localStorage.getItem('theme');
+
+// 1. Verificar si hay un tema guardado previamente
+if (currentTheme === 'light') {
+  document.body.classList.add('light-theme');
+}
+
+// 2. Escuchar el clic en el botón
+if (themeBtn) {
+  themeBtn.addEventListener('click', () => {
+    // Alternar la clase en el body
+    document.body.classList.toggle('light-theme');
+    
+    // Guardar la preferencia en localStorage
+    let theme = 'dark';
+    if (document.body.classList.contains('light-theme')) {
+      theme = 'light';
+    }
+    localStorage.setItem('theme', theme);
+  });
+}
+  
