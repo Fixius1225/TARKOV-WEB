@@ -1,12 +1,611 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tarkov API</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+    crossorigin="anonymous">
+
+    <style>
+    :root {
+        --hero-overlay: rgba(0, 0, 0, 0.30);
+        --line-light: #dddddd;
+        --accent-text: #d1b454;
+        --menu-bg: rgba(70, 70, 70, 0.35);
+        --menu-border: rgba(255, 255, 255, 0.12);
+        --cta-bg: rgba(15, 15, 15, 0.82);
+        --decor-bar: #d7d7d7;
+    }
+
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        background: #111;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .landing-page {
+        height: 100vh;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .hero-frame {
+        height: 100vh;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        background:
+            linear-gradient(var(--hero-overlay), var(--hero-overlay)),
+            radial-gradient(circle at top center, rgba(255,255,255,0.22), transparent 18%),
+            linear-gradient(135deg, #2c2724 0%, #171312 55%, #0f0d0c 100%);
+        background-size: cover;
+        background-position: center;
+    }
+
+    /* Cuando tengáis la imagen real de fondo, sustituís esto:
+    .hero-frame {
+        background:
+            linear-gradient(var(--hero-overlay), var(--hero-overlay)),
+            url("img/landing-bg.jpg") center/cover no-repeat;
+    }
+    */
+
+    .hero-layout {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 0.4rem 0.6rem 0.5rem 0.6rem;
+    }
+
+    /* =========================
+    NAVBAR SUPERIOR
+    ========================= */
+
+    .hero-nav {
+        position: relative;
+        flex-shrink: 0;
+        margin-bottom: 0.55rem;
+        z-index: 20;
+        overflow: visible;
+    }
+
+    .hero-nav-list {
+        display: flex;
+        align-items: flex-end;
+        flex-wrap: nowrap;
+        padding: 0;
+        margin: 0;
+        overflow: visible;
+    }
+
+    .hero-nav-item {
+        list-style: none;
+        position: relative;
+        margin-left: -20px;
+    }
+
+    .hero-nav-item:first-child {
+        margin-left: 0;
+    }
+
+    .hero-nav-item:nth-child(1) { z-index: 5; }
+    .hero-nav-item:nth-child(2) { z-index: 4; }
+    .hero-nav-item:nth-child(3) { z-index: 3; }
+    .hero-nav-item:nth-child(4) { z-index: 2; }
+    .hero-nav-item:nth-child(5) { z-index: 1; }
+
+    .hero-tab {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 92px;
+        height: 34px;
+        padding: 0 1rem 0 0.9rem;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #1d1d1d;
+        background: transparent;
+        border: none;
+        isolation: isolate;
+    }
+
+    .hero-tab::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border: 1px solid #dedede;
+        clip-path: polygon(0 0, 80% 0, 100% 100%, 0 100%);
+        z-index: -1;
+    }
+
+    .hero-nav-item:nth-child(1) .hero-tab::before {
+    background: linear-gradient(to bottom, #d7d7d7 0%, #bfbfbf 100%);
+    }
+
+    .hero-nav-item:nth-child(n+2) .hero-tab::before {
+    background:
+        linear-gradient(66deg, rgba(0,0,0,0.18) 15%, rgba(0,0,0,0) 25%),
+        linear-gradient(to bottom, #d3d3d3 0%, #b8b8b8 100%)
+    }
+
+    .hero-tab-label {
+        position: relative;
+        z-index: 2;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        line-height: 1;
+    }
+
+    .hero-tab:hover::before {
+        background: linear-gradient(to bottom, #dddddd 0%, #c2c2c2 100%);
+    }
+
+    .nav-divider {
+        width: 100%;
+        height: 4px;
+        margin-top: 2px;
+        background: var(--line-light);
+    }
+
+    /* =========================
+    ZONA CENTRAL
+    ========================= */
+
+    .hero-main {
+        flex: 1 1 auto;
+        min-height: 0;
+        display: flex;
+        align-items: stretch;
+    }
+
+    .hero-main > .row {
+    flex: 1 1 auto;
+    min-height: 0;
+    }
+
+    .left-stack {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.7rem;
+    padding-top: 0.35rem;
+    }
+
+    .logo-block {
+    width: 100%;
+    max-width: 360px;
+    height: 150px;
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem;
+    }
+
+    .logo-placeholder {
+    color: rgba(255,255,255,0.55);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-align: center;
+    }
+
+    .logo-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+    }
+
+    .menu-block {
+    width: 100%;
+    max-width: 270px;
+    }
+
+    .menu-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    }
+
+    .menu-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 38px;
+    width: 100%;
+    padding: 0.45rem 0.8rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--accent-text);
+    background: var(--menu-bg);
+    border: 1px solid var(--menu-border);
+    transition: 0.2s ease;
+    }
+
+    .menu-link:hover {
+    background: rgba(95, 95, 95, 0.55);
+    color: #e0cc82;
+    }
+
+    .right-visual-space {
+    height: 100%;
+    min-height: 0;
+    }
+
+    /* =========================
+    ZONA INFERIOR
+    ========================= */
+
+    .hero-bottom-zone {
+    flex-shrink: 0;
+    margin-top: 0.4rem;
+    }
+
+    .cta-wrap {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.35rem;
+    }
+
+    .buy-card {
+    width: 100%;
+    max-width: 300px;
+    min-height: 98px;
+    background: var(--cta-bg);
+    border: 1px solid rgba(255,255,255,0.08);
+    text-decoration: none;
+    color: rgba(255,255,255,0.88);
+    overflow: hidden;
+    transition: 0.2s ease;
+    }
+
+    .buy-card:hover {
+    color: #fff;
+    transform: translateY(-1px);
+    }
+
+    .buy-card-inner {
+    height: 100%;
+    }
+
+    .buy-copy {
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    }
+
+    .buy-image-placeholder {
+    height: 100%;
+    min-height: 98px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(56,56,56,0.85), rgba(18,18,18,0.95));
+    color: rgba(255,255,255,0.45);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 0.6rem;
+    }
+
+    .bottom-bar {
+    height: 14px;
+    background: var(--decor-bar);
+    border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    /* =========================
+    RESPONSIVE TABLET
+    ========================= */
+
+    @media (max-width: 991.98px) {
+    .hero-layout {
+        padding: 0.35rem 0.45rem 0.4rem 0.45rem;
+    }
+
+    .hero-nav {
+        margin-bottom: 0.35rem;
+    }
+
+    .hero-nav-item {
+        margin-left: -8px;
+    }
+
+    .hero-tab {
+        min-width: 74px;
+        height: 28px;
+        padding: 0 0.75rem;
+    }
+
+    .hero-tab-label {
+        font-size: 0.68rem;
+    }
+
+    .nav-divider {
+        height: 3px;
+    }
+
+    .hero-main {
+        align-items: flex-start;
+    }
+
+    .left-stack {
+        align-items: flex-start;
+        gap: 0.55rem;
+    }
+
+    .logo-block {
+        max-width: 260px;
+        height: 110px;
+    }
+
+    .menu-block {
+        max-width: 210px;
+    }
+
+    .menu-link {
+        min-height: 34px;
+        font-size: 0.74rem;
+        padding: 0.35rem 0.65rem;
+    }
+
+    .right-visual-space {
+        display: none;
+    }
+
+    .cta-wrap {
+        justify-content: flex-start;
+    }
+
+    .buy-card {
+        max-width: 240px;
+        min-height: 84px;
+    }
+
+    .buy-copy {
+        font-size: 0.85rem;
+        padding: 0.65rem;
+    }
+
+    .buy-image-placeholder {
+        min-height: 84px;
+        font-size: 0.62rem;
+    }
+
+    .bottom-bar {
+        height: 10px;
+    }
+    }
+
+    /* =========================
+    RESPONSIVE MÓVIL
+    ========================= */
+
+    @media (max-width: 767.98px) {
+    .hero-nav-list {
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .hero-nav-list::-webkit-scrollbar {
+        display: none;
+    }
+
+    .hero-nav-item {
+        margin-left: -6px;
+        flex: 0 0 auto;
+    }
+
+    .hero-tab {
+        min-width: 60px;
+        height: 24px;
+        padding: 0 0.5rem;
+    }
+
+    .hero-tab::after {
+        filter: blur(3px);
+        transform: translateY(2px);
+    }
+
+    .hero-tab-label {
+        font-size: 0.56rem;
+    }
+
+    .nav-divider {
+        height: 2px;
+    }
+    }
+
+    @media (max-width: 575.98px) {
+    .hero-layout {
+        padding: 0.25rem 0.3rem 0.3rem 0.3rem;
+    }
+
+    .hero-nav {
+        margin-bottom: 0.25rem;
+    }
+
+    .hero-tab {
+        min-width: 54px;
+        height: 21px;
+        padding: 0 0.4rem;
+    }
+
+    .hero-tab-label {
+        font-size: 0.5rem;
+    }
+
+    .left-stack {
+        gap: 0.45rem;
+        padding-top: 0.1rem;
+    }
+
+    .logo-block {
+        max-width: 235px;
+        height: 88px;
+        padding: 0.5rem;
+    }
+
+    .logo-placeholder {
+        font-size: 0.72rem;
+    }
+
+    .menu-block {
+        max-width: 170px;
+    }
+
+    .menu-links {
+        gap: 0.35rem;
+    }
+
+    .menu-link {
+        min-height: 28px;
+        font-size: 0.62rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .buy-card {
+        max-width: 230px;
+        min-height: 72px;
+    }
+
+    .buy-copy {
+        font-size: 0.72rem;
+        padding: 0.5rem;
+    }
+
+    .buy-image-placeholder {
+        min-height: 72px;
+        font-size: 0.52rem;
+        padding: 0.35rem;
+    }
+
+    .bottom-bar {
+        height: 8px;
+    }
+    }
+  </style>
 </head>
 <body>
-    
+  <main class="landing-page">
+    <section class="hero-frame">
+      <div class="container-fluid h-100">
+        <div class="hero-layout">
+
+        <nav class="hero-nav">
+            <ul class="hero-nav-list list-unstyled mb-0">
+                <li class="hero-nav-item">
+                    <a href="index.html" class="hero-tab">
+                        <span class="hero-tab-label">Home</span>
+                    </a>
+                </li>
+
+                <li class="hero-nav-item">
+                    <a href="items_list.html" class="hero-tab">
+                        <span class="hero-tab-label">Stash</span>
+                    </a>
+                </li>
+
+                <li class="hero-nav-item">
+                    <a href="#" class="hero-tab">
+                        <span class="hero-tab-label">Traders</span>
+                    </a>
+                </li>
+
+                <li class="hero-nav-item">
+                    <a href="#" class="hero-tab">
+                        <span class="hero-tab-label">Maps</span>
+                    </a>
+                </li>
+
+                <li class="hero-nav-item">
+                    <a href="#" class="hero-tab">
+                        <span class="hero-tab-label">Hideout</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nav-divider"></div>
+        </nav>
+
+            <div class="hero-main">
+                <div class="row g-0 w-100">
+                    <div class="col-12 col-lg-4">
+                        <div class="left-stack">
+
+                        <div class="logo-block">
+                            <!-- <img src="img/tarkov-logo.png" alt="Escape from Tarkov" class="logo-img"> -->
+                            <div class="logo-placeholder">
+                            bloque preparado para logo / imagen principal
+                            </div>
+                        </div>
+
+                        <div class="menu-block">
+                            <div class="menu-links">
+                                <a href="#" class="menu-link">Escape from Tarkov</a>
+                                <a href="items_list.html" class="menu-link">Stash</a>
+                                <a href="#" class="menu-link">Traders</a>
+                            </div>
+                        </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 d-none d-lg-block">
+                        <div class="right-visual-space"></div>
+                    </div>
+                </div>
+            </div>
+
+          <div class="hero-bottom-zone">
+            <div class="cta-wrap">
+              <a
+                href="https://www.escapefromtarkov.com/purchase"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="buy-card"
+              >
+                <div class="row g-0 buy-card-inner">
+                  <div class="col-5">
+                    <div class="buy-copy">Buy here</div>
+                  </div>
+                  <div class="col-7">
+                    <!-- aquí irá el banner real -->
+                    <div class="buy-image-placeholder">
+                      bloque preparado para banner
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="bottom-bar"></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
