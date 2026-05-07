@@ -1,6 +1,9 @@
 /* =========================================
    ESTILOS TÁCTICOS - TARKOV UI
    ========================================= */
+
+
+
 :root {
   --bg-color: #0d0d0d;
   --card-bg: #161718;
@@ -14,7 +17,8 @@
 }
 
 body { 
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+  font-family: Eurostile Extended; /* Fuente más táctica */
+  /* font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;  */ /*si queremos esto lo podemos quitar*/
   background-color: var(--bg-color);
   background-image: url('../img/BackgroundTark.png'); /* Cambiar fondo */
   background-size: cover;
@@ -22,7 +26,10 @@ body {
   background-attachment: fixed;
   background-repeat: no-repeat;
   line-height: 1.4;
+  
 }
+
+
 
 h1 {
   text-align: center;
@@ -331,4 +338,6 @@ body.light-theme .filter-btn {
 body.light-theme .price-history {
   background: rgba(255, 255, 255, 0.8);
 }
+
+
 
