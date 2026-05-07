@@ -16,9 +16,11 @@
 body { 
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
   background-color: var(--bg-color);
-  color: var(--text-main);
-  margin: 0;
-  padding: 20px;
+  background-image: url('../img/BackgroundTark.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   line-height: 1.4;
 }
 
@@ -30,10 +32,25 @@ h1 {
   margin-bottom: 25px;
 }
 
+/* Estilos para el status */
+#status {
+  text-align: center;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 15px 0;
+}
+
+/* Status en modo claro */
+body.light-theme #status {
+  color: #1a1a1b;
+}
+
 /* Panel de búsqueda y filtros */
 .controls-container {
-  background: var(--panel-bg);
-  padding: 20px;
+  background: rgba(17, 18, 19, 0.95); /* Más opaco para mejor legibilidad */
   border: 1px solid var(--border-color);
   border-radius: 4px;
   margin: 0 auto 30px auto;
@@ -93,7 +110,7 @@ h1 {
 
 /* Caja del Objeto (Card) */
 .item-card { 
-  background: var(--card-bg); 
+  background: rgba(22, 23, 24, 0.95); /* Más opaco para mejor legibilidad */
   border: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
@@ -105,6 +122,13 @@ h1 {
   border-color: var(--accent);
   box-shadow: 0 0 15px var(--accent-glow);
   transform: translateY(-3px);
+}
+
+/* Remover efectos hover en la página de detalle */
+.item-detail-card:hover {
+  border-color: var(--border-color);
+  box-shadow: none;
+  transform: none;
 }
 
 /* Cambia esto en tu función renderSingleItem dentro de main.js o añade esto a style.css */
@@ -202,6 +226,17 @@ h1 img {
   font-weight: bold;
 }
 
+/* Estilos para historial de precios */
+.price-history {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.7);
+  border-left: 4px solid var(--accent);
+  border-radius: 2px;
+}
+
 /* Estilos extra para la página de detalle */
 #item {
   padding: 20px;
@@ -222,35 +257,78 @@ a[href="index.html"]:hover {
   text-decoration: underline;
 }
 
+/* Botón volver mejorado */
+.back-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  display: inline-block;
+  padding: 8px 16px;
+  background: rgba(22, 23, 24, 0.95);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 1000;
+}
+
+.back-btn:hover {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(154, 141, 98, 0.3);
+}
+
+/* Botón volver en modo claro */
+body.light-theme .back-btn {
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--accent);
+}
+
+body.light-theme .back-btn:hover {
+  background: var(--accent);
+  color: #000;
+}
+
 .skeleton {
   background: linear-gradient(90deg, #161718 25%, #2b2c2e 50%, #161718 75%);
   background-size: 200% 100%;
   animation: loading 1.5s infinite;
 }
 
-/* =========================================
-   MODO CLARO (SOBREESCRITURA)
-   ========================================= */
 body.light-theme {
   --bg-color: #e0e0e0;
-  --card-bg: #ffffff;
-  --panel-bg: #d6d6d6;
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --panel-bg: rgba(214, 214, 214, 0.95);
   --text-main: #1a1a1b;
   --text-dim: #4a4a4a;
   --border-color: #b0b0b0;
   --accent: #6b5e3a; /* Un dorado más oscuro para contraste */
   --accent-glow: rgba(0, 0, 0, 0.1);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('../img/BackgroundTark.png');
 }
 
 /* Ajuste para el input en modo claro */
 body.light-theme #search {
-  background: #f5f5f5;
+  background: rgba(245, 245, 245, 0.95);
   color: #000;
 }
 
 /* Ajuste para botones de filtro en modo claro */
 body.light-theme .filter-btn {
-  background: #cccccc;
+  background: rgba(204, 204, 204, 0.95);
   color: #333;
+}
+
+/* Ajuste para historial de precios en modo claro */
+body.light-theme .price-history {
+  background: rgba(255, 255, 255, 0.8);
 }
 
