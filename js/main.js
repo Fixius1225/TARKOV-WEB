@@ -121,7 +121,7 @@ if (ITEM_DETAIL_CONTAINER) {
       STATUS.textContent = 'CARGANDO DETALLES...';
       const query = `{
         item(id: "${id}") {
-          name shortName description iconLink link lastLowPrice
+          id name shortName description iconLink link lastLowPrice
         }
       }`;
       const res = await fetch('https://api.tarkov.dev/graphql', {
@@ -130,16 +130,52 @@ if (ITEM_DETAIL_CONTAINER) {
         body: JSON.stringify({ query })
       });
       const json = await res.json();
+      if (json.errors) {
+        console.error('GraphQL Error:', json.errors);
+        STATUS.textContent = 'Error en la consulta';
+        return;
+      }
       renderSingleItem(json.data.item);
     } catch (err) {
+      console.error('Fetch Error:', err);
       STATUS.textContent = 'Error al cargar el objeto';
     }
   }
 
   function renderSingleItem(it) {
     STATUS.textContent = '';
+    
+    // Obtener historial de precios del localStorage
+    const storageKey = `price_${it.id}`;
+    let priceHistory = JSON.parse(localStorage.getItem(storageKey)) || [];
+    
+    // Agregar precio actual si es diferente al último guardado
+    if (priceHistory.length === 0 || priceHistory[priceHistory.length - 1].price !== it.lastLowPrice) {
+      priceHistory.push({
+        price: it.lastLowPrice,
+        date: new Date().toLocaleDateString('es-ES')
+      });
+      // Guardar solo los últimos 10 precios
+      if (priceHistory.length > 10) {
+        priceHistory = priceHistory.slice(-10);
+      }
+      localStorage.setItem(storageKey, JSON.stringify(priceHistory));
+    }
+    
+    // Mostrar historial (sin el precio actual, que ya está mostrado)
+    let priceHistoryHtml = '';
+    if (priceHistory.length > 1) {
+      const previousPrices = priceHistory.slice(0, -1).reverse().map(p => 
+        `${p.price.toLocaleString()} ₽ <span style="color: var(--text-dim);">(${p.date})</span>`
+      ).join('<br>');
+      priceHistoryHtml = `<div class="price-history">
+        <p style="margin: 0 0 8px 0; font-size: 0.85rem; font-weight: bold; color: var(--accent);">HISTORIAL DE PRECIOS:</p>
+        <p style="margin: 0;">${previousPrices}</p>
+      </div>`;
+    }
+    
     ITEM_DETAIL_CONTAINER.innerHTML = `
-      <div class="item-card" style="max-width: 600px; margin: 0 auto; padding: 20px;">
+      <div class="item-card item-detail-card" style="max-width: 600px; margin: 0 auto; padding: 20px;">
         <h2 style="color: var(--accent);">${escapeHtml(it.name)}</h2>
         <div class="item-image-wrapper" style="border: 1px solid var(--border-color); margin: 15px 0;">
           <img src="${it.iconLink}" style="width: 120px; height: 120px;">
@@ -147,8 +183,9 @@ if (ITEM_DETAIL_CONTAINER) {
         <p><strong>${escapeHtml(it.shortName)}</strong></p>
         <p style="color: var(--text-main);">${escapeHtml(it.description || 'Sin descripción.')}</p>
         <div class="item-footer">
-           <span class="price-value" style="font-size: 1.5rem;">${it.lastLowPrice ? it.lastLowPrice.toLocaleString() + ' ₽' : 'Precio no disponible'}</span>
+           <span class="price-value" style="font-size: 1.5rem;">PRECIO ACTUAL: ${it.lastLowPrice ? it.lastLowPrice.toLocaleString() + ' ₽' : 'Precio no disponible'}</span>
         </div>
+        ${priceHistoryHtml}
         <br>
         <a href="${it.link}" target="_blank" style="color: var(--accent);">Ver en la Wiki oficial</a>
       </div>
