@@ -121,7 +121,7 @@ if (ITEM_DETAIL_CONTAINER) {
       STATUS.textContent = 'CARGANDO DETALLES...';
       const query = `{
         item(id: "${id}") {
-          name shortName description iconLink link lastLowPrice
+          id name shortName description iconLink link lastLowPrice
         }
       }`;
       const res = await fetch('https://api.tarkov.dev/graphql', {
