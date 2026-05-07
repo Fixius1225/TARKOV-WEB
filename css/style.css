@@ -1,0 +1,334 @@
+/* =========================================
+   ESTILOS TÁCTICOS - TARKOV UI
+   ========================================= */
+:root {
+  --bg-color: #0d0d0d;
+  --card-bg: #161718;
+  --accent: #9a8d62; /* Oro Tarkov */
+  --accent-glow: rgba(154, 141, 98, 0.15);
+  --text-main: #dbdbdb;
+  --text-dim: #7a7a7a;
+  --ruble-green: #53aa35;
+  --border-color: #2b2c2e;
+  --panel-bg: #111213;
+}
+
+body { 
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+  background-color: var(--bg-color);
+  background-image: url('../img/BackgroundTark.png'); /* Cambiar fondo */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  line-height: 1.4;
+}
+
+h1 {
+  text-align: center;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 25px;
+}
+
+/* Estilos para el status */
+#status {
+  text-align: center;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 15px 0;
+}
+
+/* Status en modo claro */
+body.light-theme #status {
+  color: #1a1a1b;
+}
+
+/* Panel de búsqueda y filtros */
+.controls-container {
+  background: rgba(17, 18, 19, 0.95); /* Más opaco para mejor legibilidad */
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  margin: 0 auto 30px auto;
+  max-width: 800px;
+}
+
+#search {
+  width: 100%;
+  padding: 12px;
+  background: #080808;
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--accent);
+  color: white;
+  border-radius: 2px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+
+#filters {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Un poco más de espacio para facilitar el toque con el dedo */
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  background: #1a1b1c;
+  border: 1px solid var(--border-color);
+  color: var(--text-dim);
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.filter-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.filter-btn.active {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+}
+
+/* Grilla de Objetos */
+#items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Caja del Objeto (Card) */
+.item-card { 
+  background: rgba(22, 23, 24, 0.95); /* Más opaco para mejor legibilidad */
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.item-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 15px var(--accent-glow);
+  transform: translateY(-3px);
+}
+
+/* Remover efectos hover en la página de detalle */
+.item-detail-card:hover {
+  border-color: var(--border-color);
+  box-shadow: none;
+  transform: none;
+}
+
+/* Cambia esto en tu función renderSingleItem dentro de main.js o añade esto a style.css */
+.item-card-detail {
+  width: 90%; /* Evita que pegue a los bordes en móviles */
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.item-image-wrapper {
+  background: radial-gradient(circle, #252627 0%, #161718 100%);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.item-image-wrapper img {
+  width: 85px;
+  height: 85px;
+  object-fit: contain;
+}
+
+/* 1. Asegurar que ninguna imagen desborde el ancho de la pantalla */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* 2. Ajuste específico para el contenedor de la imagen del título */
+h1 img {
+  max-width: 80%; /* Evita que el logo sea gigante en móviles */
+  margin-top: 10px;
+}
+
+/* 3. Media Queries para pantallas pequeñas (Móviles) */
+@media (max-width: 600px) {
+  body {
+    padding: 10px; /* Menos espacio en los bordes */
+  }
+
+  h1 {
+    font-size: 1.8rem; /* Título un poco más pequeño */
+  }
+
+  .controls-container {
+    padding: 15px; /* Compactar el buscador */
+  }
+
+  .filter-btn {
+    padding: 6px 12px;
+    font-size: 0.7rem; /* Botones más pequeños para que quepan más */
+  }
+
+  /* Ajustar la grilla para que las cajas no sean demasiado pequeñas */
+  #items {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+  }
+}
+
+.item-info {
+  padding: 15px;
+  flex-grow: 1;
+}
+
+.item-name {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.item-shortname {
+  color: var(--text-dim);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+.item-footer {
+  padding: 10px 15px;
+  background: rgba(0,0,0,0.2);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+}
+
+.price-value {
+  color: var(--ruble-green);
+  font-family: monospace;
+  font-weight: bold;
+}
+
+/* Estilos para historial de precios */
+.price-history {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.7);
+  border-left: 4px solid var(--accent);
+  border-radius: 2px;
+}
+
+/* Estilos extra para la página de detalle */
+#item {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+a[href="index.html"] {
+  display: inline-block;
+  color: var(--accent);
+  text-decoration: none;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+a[href="index.html"]:hover {
+  text-decoration: underline;
+}
+
+/* Botón volver mejorado */
+.back-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  display: inline-block;
+  padding: 8px 16px;
+  background: rgba(22, 23, 24, 0.95);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 1000;
+}
+
+.back-btn:hover {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(154, 141, 98, 0.3);
+}
+
+/* Botón volver en modo claro */
+body.light-theme .back-btn {
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--accent);
+}
+
+body.light-theme .back-btn:hover {
+  background: var(--accent);
+  color: #000;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #161718 25%, #2b2c2e 50%, #161718 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+body.light-theme {
+  --bg-color: #e0e0e0;
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --panel-bg: rgba(214, 214, 214, 0.95);
+  --text-main: #1a1a1b;
+  --text-dim: #4a4a4a;
+  --border-color: #b0b0b0;
+  --accent: #6b5e3a; /* Un dorado más oscuro para contraste */
+  --accent-glow: rgba(0, 0, 0, 0.1);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('../img/BackgroundTark.png');
+}
+
+/* Ajuste para el input en modo claro */
+body.light-theme #search {
+  background: rgba(245, 245, 245, 0.95);
+  color: #000;
+}
+
+/* Ajuste para botones de filtro en modo claro */
+body.light-theme .filter-btn {
+  background: rgba(204, 204, 204, 0.95);
+  color: #333;
+}
+
+/* Ajuste para historial de precios en modo claro */
+body.light-theme .price-history {
+  background: rgba(255, 255, 255, 0.8);
+}
+
