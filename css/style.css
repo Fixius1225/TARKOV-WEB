@@ -43,9 +43,7 @@ a {
   color: inherit;
 }
 
-/* =========================
-   ESTRUCTURA GENERAL
-========================= */
+/*  Estructura */
 
 .page-shell {
   min-height: 100vh;
@@ -88,9 +86,7 @@ a {
   margin: 1rem 0 1.25rem;
 }
 
-/* =========================
-   NAVBAR GLOBAL
-========================= */
+/* Navbar */
 
 .hero-nav-item:nth-child(1) { z-index: 5; }
 .hero-nav-item:nth-child(2) { z-index: 4; }
@@ -170,7 +166,7 @@ a {
 }
 
 
-/* la activa solo destaca por altura */
+/* nav activa  */
 .hero-nav-item.is-current .hero-tab {
   height: 37px;
 }
@@ -216,9 +212,7 @@ a {
   font-weight: 800;
 }
 
-/* =========================
-   CONTROLES Y FILTROS
-========================= */
+/* CONTROLES Y FILTROS */
 
 .controls-container {
   background: var(--panel-bg);
@@ -270,9 +264,7 @@ a {
   border-color: var(--accent);
 }
 
-/* =========================
-   GRID DE ITEMS
-========================= */
+/* Grid con items */
 
 .items-grid,
 #items {
@@ -350,9 +342,7 @@ a {
   font-weight: 700;
 }
 
-/* =========================
-   DETALLE DEL ITEM
-========================= */
+/* detalles de item */
 
 .item-detail-wrapper,
 #item {
@@ -412,9 +402,7 @@ a {
   border-color: var(--accent);
 }
 
-/* =========================
-   TEMA CLARO
-========================= */
+/* Tema claro */
 
 body.light-theme {
   --bg-color: #e0e0e0;
@@ -446,9 +434,8 @@ body.light-theme #status {
   color: #1a1a1b;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+/* RESPONSIVE */
+
 
 /* tablet */
 

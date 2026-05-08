@@ -176,6 +176,8 @@ body[data-page="landing"] .bottom-bar {
   border: 1px solid rgba(255,255,255,0.25);
 }
 
+/* RESPONSIVE */
+
 @media (max-width: 768px) {
   body[data-page="landing"] .hero-layout {
     padding: 0.35rem 0.45rem 0.4rem 0.45rem;
