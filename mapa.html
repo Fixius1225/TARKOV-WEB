@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mapas - Tarkov</title>  
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="map-page">
+  <div class="page-header">
+    <img src="img/tarkov_img.png" alt="Escape from Tarkov" class="page-logo">
+    <a href="index.html" class="back-btn">← VOLVER AL INVENTARIO</a>
+  </div>
+  
+  <h1>ESCAPE FROM TARKOV - MAPAS</h1>
+  
+  <div class="maps-container">
+    <!-- Panel de Mapas (Izquierda) -->
+    <div class="maps-panel">
+      <h2>MAPAS DISPONIBLES</h2>
+      <div class="maps-list">
+        <div class="maps-column">
+          <div class="map-item standard" data-map="the-lab">THE LAB</div>
+          <div class="map-item standard" data-map="ground-zero">GROUND ZERO</div>
+          <div class="map-item standard" data-map="streets">STREETS OF TARKOV</div>
+          <div class="map-item standard" data-map="factory">FACTORY</div>
+          <div class="map-item standard" data-map="woods">WOODS</div>
+          <div class="map-item standard" data-map="customs">CUSTOMS</div>
+          <div class="map-item standard" data-map="interchange">INTERCHANGE</div>
+        </div>
+        <div class="maps-column">
+          <div class="map-item standard" data-map="reserve">RESERVE</div>
+          <div class="map-item standard" data-map="lighthouse">LIGHTHOUSE</div>
+          <div class="map-item standard" data-map="shoreline">SHORELINE</div>
+          <div class="map-item standard" data-map="labyrinth">THE LABYRINTH</div>
+          <div class="map-item unavailable" data-map="terminal">TERMINAL <span class="unavailable-tag">NO DISPONIBLE</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visualización del Mapa (Derecha) -->
+    <div class="map-viewer">
+      <div class="map-display">
+        <img id="map-image" src="img/Map.png" alt="Mapa de Tarkov" class="map-image">
+      </div>
+      <div class="map-info">
+        <p id="map-description">Selecciona un mapa para ver más información</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

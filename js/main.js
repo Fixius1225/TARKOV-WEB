@@ -222,4 +222,34 @@ if (themeBtn) {
     localStorage.setItem('theme', theme);
   });
 }
+
+// ==========================================
+// SELECCIÓN DE MAPAS EN MAPA.HTML
+// ==========================================
+const MAP_ITEMS = document.querySelectorAll('.map-item');
+const MAP_DESCRIPTION = document.getElementById('map-description');
+
+if (MAP_ITEMS.length > 0) {
+  function clearMapSelection() {
+    document.querySelectorAll('.map-item.selected').forEach(el => el.classList.remove('selected'));
+  }
+
+  MAP_ITEMS.forEach(item => {
+    item.addEventListener('click', () => {
+      if (item.classList.contains('unavailable')) return;
+
+      const alreadySelected = item.classList.contains('selected');
+      clearMapSelection();
+
+      if (!alreadySelected) {
+        item.classList.add('selected');
+        if (MAP_DESCRIPTION) {
+          MAP_DESCRIPTION.textContent = `${item.textContent.trim()} seleccionado.`;
+        }
+      } else if (MAP_DESCRIPTION) {
+        MAP_DESCRIPTION.textContent = 'Selecciona un mapa para ver más información';
+      }
+    });
+  });
+}
   
