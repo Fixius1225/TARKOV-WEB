@@ -27,7 +27,7 @@ function renderSiteNav() {
   const navItems = [
     { key: 'home', label: 'Home', href: 'index.html' },
     { key: 'stash', label: 'Stash', href: 'items_list.html' },
-    { key: 'traders', label: 'Traders', href: '#' },
+    { key: 'traders', label: 'Traders', href: 'traders.html' },
     { key: 'maps', label: 'Maps', href: '#' },
     { key: 'hideout', label: 'Hideout', href: '#' }
   ];
