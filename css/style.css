@@ -8,13 +8,22 @@
   --bg-color: #0d0d0d;
   --panel-bg: rgba(17, 18, 19, 0.94);
   --card-bg: rgba(22, 23, 24, 0.95);
+  --card-soft-bg: rgba(8, 8, 8, 0.45);
+
   --accent: #9a8d62;
   --accent-glow: rgba(154, 141, 98, 0.15);
+
   --text-main: #dbdbdb;
   --text-dim: #7a7a7a;
+  --text-dark: #1d1d1d;
+
   --ruble-green: #53aa35;
+
   --border-color: #2b2c2e;
   --line-light: #dddddd;
+
+  --radius-sm: 4px;
+  --transition-fast: 0.2s ease;
 }
 
 
@@ -63,7 +72,7 @@ a {
 
 
 /* =========================
-   3. ESTRUCTURA GENERAL
+   3. COMPONENTES GENERALES
 ========================= */
 
 /* ==== Shell general ==== */
@@ -102,41 +111,53 @@ a {
 /* ==== Títulos y estados ==== */
 
 .page-title {
+  margin: 0 0 1.25rem;
   color: var(--accent);
   text-transform: uppercase;
   letter-spacing: 3px;
-  margin: 0 0 1.25rem;
   font-size: clamp(1.6rem, 2vw, 2.4rem);
 }
 
 .status-message,
 #status {
+  margin: 1rem 0 1.25rem;
   text-align: center;
   color: var(--text-main);
   font-size: 0.9rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin: 1rem 0 1.25rem;
 }
 
-.banner-image-wrap {
-  width: 100%;
-  height: 100%;
-  min-height: 42px;
-  padding: 0 !important;
-  margin: 0;
-  overflow: hidden;
-  background: none !important;
-  display: block;
+/* ==== Bloques con borde compartido ==== */
+
+.controls-container,
+.item-card,
+.item-detail-card,
+.trader-detail-card,
+.trader-offer-card {
+  border: 1px solid var(--border-color);
 }
 
-.banner-img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
+.item-card,
+.item-detail-card,
+.trader-detail-card {
+  background: var(--card-bg);
 }
+
+.controls-container {
+  background: var(--panel-bg);
+  border-radius: var(--radius-sm);
+}
+
+/* ==== Hover compartido de tarjetas ==== */
+
+.item-card,
+.trader-card,
+.trader-offer-card {
+  transition: var(--transition-fast);
+}
+
 
 /* =========================
    4. NAVBAR GLOBAL
@@ -165,8 +186,8 @@ a {
   display: flex;
   align-items: flex-end;
   flex-wrap: nowrap;
-  padding: 0;
   margin: 0;
+  padding: 0;
   overflow-x: auto;
   overflow-y: visible;
   scrollbar-width: none;
@@ -178,10 +199,10 @@ a {
 }
 
 .hero-nav-item {
-  list-style: none;
   position: relative;
-  margin-left: -18px;
+  list-style: none;
   flex: 0 0 auto;
+  margin-left: -18px;
 }
 
 .hero-nav-item:first-child {
@@ -204,12 +225,12 @@ a {
   min-width: 92px;
   height: 40px;
   padding: 0 1rem 0 0.9rem;
-  text-transform: uppercase;
-  color: #1d1d1d;
   background: transparent;
   border: none;
+  color: var(--text-dark);
+  text-transform: uppercase;
   isolation: isolate;
-  transition: transform 0.2s ease;
+  transition: transform var(--transition-fast);
 }
 
 .hero-tab::before {
@@ -225,10 +246,16 @@ a {
   background: linear-gradient(to bottom, #d7d7d7 0%, #bfbfbf 100%);
 }
 
-.hero-nav-item:nth-child(n+2) .hero-tab::before {
+.hero-nav-item:nth-child(n + 2) .hero-tab::before {
   background:
     linear-gradient(66deg, rgba(0, 0, 0, 0.18) 15%, rgba(0, 0, 0, 0) 25%),
     linear-gradient(to bottom, #d3d3d3 0%, #b8b8b8 100%);
+}
+
+.hero-tab:hover::before {
+  background:
+    linear-gradient(66deg, rgba(0, 0, 0, 0.16) 15%, rgba(0, 0, 0, 0) 25%),
+    linear-gradient(to bottom, #dddddd 0%, #c2c2c2 100%);
 }
 
 .hero-tab-label {
@@ -238,12 +265,6 @@ a {
   font-weight: 700;
   letter-spacing: 0.03em;
   line-height: 1;
-}
-
-.hero-tab:hover::before {
-  background:
-    linear-gradient(66deg, rgba(0, 0, 0, 0.16) 15%, rgba(0, 0, 0, 0) 25%),
-    linear-gradient(to bottom, #dddddd 0%, #c2c2c2 100%);
 }
 
 /* ==== Estado activo ==== */
@@ -287,16 +308,16 @@ body[data-page="traders"] {
 
 body[data-page="landing"] .landing-page,
 body[data-page="traders"] .landing-page {
-  height: 100vh;
   width: 100%;
+  height: 100vh;
   overflow: hidden;
 }
 
 body[data-page="landing"] .hero-frame,
 body[data-page="traders"] .hero-frame {
-  height: 100vh;
-  width: 100%;
   position: relative;
+  width: 100%;
+  height: 100vh;
   overflow: hidden;
   background:
     linear-gradient(rgba(0, 0, 0, 0.30), rgba(0, 0, 0, 0.30)),
@@ -307,19 +328,20 @@ body[data-page="traders"] .hero-frame {
 
 body[data-page="landing"] .hero-layout,
 body[data-page="traders"] .hero-layout {
-  height: 100%;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 0.4rem 0.6rem 0.5rem 0.6rem;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  padding: 0.4rem 0.6rem 0.5rem;
 }
 
 body[data-page="landing"] .hero-main,
 body[data-page="traders"] .hero-main {
-  flex: 1 1 auto;
-  min-height: 0;
   display: flex;
   align-items: stretch;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 body[data-page="landing"] .hero-bottom-zone,
@@ -338,8 +360,7 @@ body[data-page="traders"] .cta-wrap {
   margin-bottom: 0.35rem;
 }
 
-body[data-page="landing"] .buy-card,
-body[data-page="traders"] .buy-card {
+.buy-card {
   width: 100%;
   max-width: 300px;
   min-height: 98px;
@@ -347,22 +368,19 @@ body[data-page="traders"] .buy-card {
   border: 1px solid rgba(255,255,255,0.08);
   color: rgba(255,255,255,0.88);
   overflow: hidden;
-  transition: 0.2s ease;
+  transition: var(--transition-fast);
 }
 
-body[data-page="landing"] .buy-card:hover,
-body[data-page="traders"] .buy-card:hover {
+.buy-card:hover {
   color: #fff;
   transform: translateY(-1px);
 }
 
-body[data-page="landing"] .buy-card-inner,
-body[data-page="traders"] .buy-card-inner {
+.buy-card-inner {
   height: 100%;
 }
 
-body[data-page="landing"] .buy-copy,
-body[data-page="traders"] .buy-copy {
+.buy-copy {
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -373,26 +391,45 @@ body[data-page="traders"] .buy-copy {
   letter-spacing: 0.06em;
 }
 
-body[data-page="landing"] .buy-image-placeholder,
-body[data-page="traders"] .buy-image-placeholder {
-  height: 100%;
-  min-height: 98px;
+.buy-image-placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  min-height: 98px;
+  height: 100%;
+  padding: 0.6rem;
   background: linear-gradient(135deg, rgba(56,56,56,0.85), rgba(18,18,18,0.95));
   color: rgba(255,255,255,0.45);
   font-size: 0.72rem;
   text-transform: uppercase;
   text-align: center;
-  padding: 0.6rem;
 }
 
-body[data-page="landing"] .bottom-bar,
-body[data-page="traders"] .bottom-bar {
+.bottom-bar {
   height: 14px;
   background: #d7d7d7;
   border: 1px solid rgba(255,255,255,0.25);
+}
+
+/* ==== Banner de compra compartido ==== */
+
+.banner-image-wrap {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 42px;
+  margin: 0;
+  padding: 0 !important;
+  overflow: hidden;
+  background: none !important;
+}
+
+.banner-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 
@@ -410,28 +447,28 @@ body[data-page="landing"] .hero-main > .row {
 /* ==== Columna izquierda ==== */
 
 body[data-page="landing"] .left-stack {
-  width: 100%;
-  max-width: 440px;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   gap: 0.9rem;
+  width: 100%;
+  max-width: 440px;
+  height: 100%;
   padding-top: 0.9rem;
 }
 
 /* ==== Logo ==== */
 
 body[data-page="landing"] .logo-block {
-  width: 100%;
-  max-width: 430px;
-  height: 180px;
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.03);
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  max-width: 430px;
+  height: 180px;
   padding: 1rem;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
 }
 
 body[data-page="landing"] .logo-img {
@@ -456,16 +493,16 @@ body[data-page="landing"] .menu-links {
 body[data-page="landing"] .menu-link {
   display: inline-flex;
   align-items: center;
-  min-height: 42px;
   width: 100%;
+  min-height: 42px;
   padding: 0.55rem 0.95rem;
+  color: #d1b454;
   text-transform: uppercase;
   font-size: 0.86rem;
   letter-spacing: 0.04em;
-  color: #d1b454;
   background: rgba(70, 70, 70, 0.35);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  transition: 0.2s ease;
+  transition: var(--transition-fast);
 }
 
 body[data-page="landing"] .menu-link:hover {
@@ -476,35 +513,32 @@ body[data-page="landing"] .menu-link:hover {
 /* ==== Espacio visual derecho ==== */
 
 body[data-page="landing"] .right-visual-space {
-  height: 100%;
   min-height: 0;
+  height: 100%;
 }
 
 
 /* =========================
-   7. ITEMS LIST
+   7. ITEMS LIST PAGE
 ========================= */
 
 /* ==== Controles ==== */
 
 .controls-container {
-  background: var(--panel-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  margin: 0 auto 1.5rem;
   max-width: 900px;
+  margin: 0 auto 1.5rem;
   padding: 1rem;
 }
 
 #search {
   width: 100%;
+  margin-bottom: 1rem;
   padding: 12px;
   background: #080808;
   border: 1px solid var(--border-color);
   border-left: 4px solid var(--accent);
-  color: white;
   border-radius: 2px;
-  margin-bottom: 1rem;
+  color: #fff;
 }
 
 #filters {
@@ -525,7 +559,7 @@ body[data-page="landing"] .right-visual-space {
   text-transform: uppercase;
   font-size: 0.75rem;
   font-weight: 700;
-  transition: 0.2s ease;
+  transition: var(--transition-fast);
 }
 
 .filter-btn:hover {
@@ -535,8 +569,8 @@ body[data-page="landing"] .right-visual-space {
 
 .filter-btn.active {
   background: var(--accent);
-  color: #000;
   border-color: var(--accent);
+  color: #000;
 }
 
 /* ==== Grid de items ==== */
@@ -548,14 +582,6 @@ body[data-page="landing"] .right-visual-space {
   gap: 20px;
 }
 
-.item-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  display: flex;
-  flex-direction: column;
-  transition: 0.2s ease;
-}
-
 .item-card:hover {
   border-color: var(--accent);
   box-shadow: 0 0 15px var(--accent-glow);
@@ -563,10 +589,10 @@ body[data-page="landing"] .right-visual-space {
 }
 
 .item-image-wrapper {
-  background: radial-gradient(circle, #252627 0%, #161718 100%);
-  padding: 20px;
   display: flex;
   justify-content: center;
+  padding: 20px;
+  background: radial-gradient(circle, #252627 0%, #161718 100%);
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -577,16 +603,16 @@ body[data-page="landing"] .right-visual-space {
 }
 
 .item-info {
-  padding: 15px;
   flex-grow: 1;
+  padding: 15px;
 }
 
 .item-name {
-  color: var(--accent);
-  font-weight: 700;
-  font-size: 0.92rem;
   display: block;
   margin-bottom: 5px;
+  color: var(--accent);
+  font-size: 0.92rem;
+  font-weight: 700;
 }
 
 .item-shortname {
@@ -596,17 +622,17 @@ body[data-page="landing"] .right-visual-space {
 }
 
 .item-footer {
-  padding: 10px 15px;
-  background: rgba(0, 0, 0, 0.2);
-  border-top: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   gap: 0.75rem;
+  padding: 10px 15px;
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid var(--border-color);
 }
 
 .price-label {
-  font-size: 0.7rem;
   color: var(--text-dim);
+  font-size: 0.7rem;
   text-transform: uppercase;
 }
 
@@ -618,50 +644,34 @@ body[data-page="landing"] .right-visual-space {
 
 
 /* =========================
-   8. ITEM DETAIL
+   8. DETAIL PAGES SHARED
 ========================= */
 
-/* ==== Contenedor ==== */
+/* ==== Wrappers compartidos ==== */
 
 .item-detail-wrapper,
-#item {
+.trader-detail-wrapper,
+#item,
+#trader-detail {
   display: flex;
   justify-content: center;
 }
 
-.item-detail-card {
+/* ==== Cards principales compartidas ==== */
+
+.item-detail-card,
+.trader-detail-card {
   width: 100%;
+}
+
+.item-detail-card {
   max-width: 700px;
   padding: 20px;
 }
 
-.item-detail-card:hover {
-  border-color: var(--border-color);
-  box-shadow: none;
-  transform: none;
-}
-
-/* ==== Texto detalle ==== */
-
-.item-detail-title {
-  color: var(--accent);
-  margin-bottom: 1rem;
-}
-
-.item-detail-description {
-  color: var(--text-main);
-}
-
-/* ==== Historial ==== */
-
-.price-history {
-  font-size: 0.78rem;
-  color: var(--text-dim);
-  margin-top: 15px;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.7);
-  border-left: 4px solid var(--accent);
-  border-radius: 2px;
+.trader-detail-card {
+  max-width: 1100px;
+  padding: 24px;
 }
 
 /* ==== Botón volver ==== */
@@ -673,22 +683,52 @@ body[data-page="landing"] .right-visual-space {
   border: 1px solid var(--border-color);
   border-left: 4px solid var(--accent);
   color: var(--accent);
-  font-weight: 700;
-  text-transform: uppercase;
   font-size: 0.75rem;
+  font-weight: 700;
   letter-spacing: 1px;
-  transition: 0.2s ease;
+  text-transform: uppercase;
+  transition: var(--transition-fast);
 }
 
 .back-btn:hover {
   background: var(--accent);
-  color: #000;
   border-color: var(--accent);
+  color: #000;
 }
 
 
 /* =========================
-   9. TRADERS PAGE
+   9. ITEM DETAIL PAGE
+========================= */
+
+.item-detail-card:hover {
+  border-color: var(--border-color);
+  box-shadow: none;
+  transform: none;
+}
+
+.item-detail-title {
+  margin-bottom: 1rem;
+  color: var(--accent);
+}
+
+.item-detail-description {
+  color: var(--text-main);
+}
+
+.price-history {
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.7);
+  border-left: 4px solid var(--accent);
+  border-radius: 2px;
+  color: var(--text-dim);
+  font-size: 0.78rem;
+}
+
+
+/* =========================
+   10. TRADERS PAGE
 ========================= */
 
 /* ==== Estructura central traders ==== */
@@ -728,8 +768,8 @@ body[data-page="traders"] .traders-title {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.3rem 1rem;
   margin: 0;
+  padding: 0.3rem 1rem;
   color: #d1b454;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -756,7 +796,6 @@ body[data-page="traders"] .trader-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: transform 0.2s ease;
   max-width: 150px;
   margin: 0 auto;
 }
@@ -766,30 +805,29 @@ body[data-page="traders"] .trader-card:hover {
 }
 
 body[data-page="traders"] .trader-portrait {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  background:
-    linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
-    linear-gradient(135deg, rgba(80, 80, 80, 0.55), rgba(30, 30, 30, 0.75));
-  border: 2px solid rgba(154, 141, 98, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
+  border: 2px solid rgba(154, 141, 98, 0.45);
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
+    linear-gradient(135deg, rgba(80, 80, 80, 0.55), rgba(30, 30, 30, 0.75));
 }
 
 body[data-page="traders"] .trader-portrait img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
 
 body[data-page="traders"] .trader-name {
   margin-top: 0.28rem;
   color: #d1b454;
-  text-transform: uppercase;
   text-align: center;
+  text-transform: uppercase;
   font-size: 0.82rem;
   letter-spacing: 0.03em;
 }
@@ -802,80 +840,14 @@ body[data-page="traders"] .traders-bottom-zone {
   flex-shrink: 0;
 }
 
-body[data-page="traders"] .traders-cta-wrap {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 0;
-}
-
-body[data-page="traders"] .traders-buy-card {
-  width: 100%;
-  max-width: 300px;
-  min-height: 42px;
-  background: rgba(15, 15, 15, 0.9);
-  border: 1px solid rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.88);
-  overflow: hidden;
-}
-
-body[data-page="traders"] .traders-buy-card .buy-card-inner {
-  min-height: 42px;
-}
-
-body[data-page="traders"] .traders-mini-logo,
-body[data-page="traders"] .traders-buy-copy {
-  min-height: 42px;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.78rem;
-  text-transform: uppercase;
-}
-
-body[data-page="traders"] .traders-mini-logo {
-  background: rgba(10, 10, 10, 0.95);
-  padding: 0.35rem;
-}
-
-body[data-page="traders"] .traders-buy-copy {
-  background: rgba(20, 20, 20, 0.95);
-  color: #f0f0f0;
-  letter-spacing: 0.05em;
-  font-size: 0.82rem;
-  justify-content: center;
-  align-items: center;
-  padding: 0.4rem;
-}
-
-
 body[data-page="traders"] .traders-bottom-bar {
   width: 100%;
-  height: 16px;
-  background: #d7d7d7;
-  border: 1px solid rgba(255,255,255,0.25);
-  margin-top: 0.1rem;
 }
 
 
 /* =========================
-   10. TRADER DETAIL PAGE
+   11. TRADER DETAIL PAGE
 ========================= */
-
-/* ==== Contenedor general ==== */
-
-.trader-detail-wrapper {
-  display: flex;
-  justify-content: center;
-}
-
-.trader-detail-card {
-  width: 100%;
-  max-width: 1100px;
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  padding: 24px;
-}
 
 /* ==== Cabecera ==== */
 
@@ -888,9 +860,8 @@ body[data-page="traders"] .traders-bottom-bar {
 }
 
 .trader-detail-image {
-  background: radial-gradient(circle, #252627 0%, #161718 100%);
-  border: 1px solid var(--border-color);
   padding: 14px;
+  background: radial-gradient(circle, #252627 0%, #161718 100%);
 }
 
 .trader-detail-image img {
@@ -936,8 +907,8 @@ body[data-page="traders"] .traders-bottom-bar {
   justify-content: center;
   min-height: 34px;
   padding: 0.4rem 0.85rem;
-  border: 1px solid var(--border-color);
   background: rgba(10, 10, 10, 0.45);
+  border: 1px solid var(--border-color);
   color: var(--accent);
   text-transform: uppercase;
   font-size: 0.7rem;
@@ -954,11 +925,17 @@ body[data-page="traders"] .traders-bottom-bar {
   font-size: 1.1rem;
 }
 
+.trader-stock-section {
+  margin-top: 28px;
+}
+
 .trader-offers-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 14px;
 }
+
+/* ==== Oferta clicable ==== */
 
 .trader-offer-link {
   display: block;
@@ -967,22 +944,26 @@ body[data-page="traders"] .traders-bottom-bar {
   text-decoration: none;
 }
 
+.trader-offer-link:hover .trader-offer-card {
+  border-color: var(--accent);
+  box-shadow: 0 0 15px var(--accent-glow);
+  transform: translateY(-2px);
+}
+
 /* ==== Card de oferta ==== */
 
 .trader-offer-card {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: rgba(8, 8, 8, 0.45);
-  border: 1px solid var(--border-color);
   padding: 14px;
-  transition: 0.2s ease;
+  background: var(--card-soft-bg);
 }
 
 .trader-offer-top {
   display: flex;
-  gap: 12px;
   align-items: flex-start;
+  gap: 12px;
   min-height: 74px;
   margin-bottom: 10px;
 }
@@ -990,8 +971,8 @@ body[data-page="traders"] .traders-bottom-bar {
 .trader-offer-image {
   width: 54px;
   height: 54px;
-  object-fit: contain;
   flex-shrink: 0;
+  object-fit: contain;
 }
 
 .trader-offer-name {
@@ -1009,24 +990,25 @@ body[data-page="traders"] .traders-bottom-bar {
 }
 
 .trader-offer-price {
+  margin: 0.55rem 0 0.7rem;
   color: var(--ruble-green);
   font-family: monospace;
-  font-weight: 700;
   font-size: 0.9rem;
-  margin: 0.55rem 0 0.7rem;
+  font-weight: 700;
 }
 
 .trader-offer-requirements {
-  border-top: 1px solid var(--border-color);
+  margin-top: auto;
   padding-top: 10px;
+  border-top: 1px solid var(--border-color);
 }
 
 .trader-offer-req-title {
+  margin-bottom: 6px;
   color: var(--text-dim);
   text-transform: uppercase;
   font-size: 0.68rem;
   letter-spacing: 0.06em;
-  margin-bottom: 6px;
 }
 
 .trader-offer-req-list {
@@ -1044,59 +1026,16 @@ body[data-page="traders"] .traders-bottom-bar {
 /* ==== Mensajes ==== */
 
 .trader-empty {
-  color: var(--text-dim);
-  text-align: center;
   padding: 2rem 1rem;
   border: 1px dashed var(--border-color);
+  color: var(--text-dim);
+  text-align: center;
 }
 
-/* ==== Responsive ==== */
-
-@media (max-width: 768px) {
-  .trader-detail-card {
-    padding: 18px;
-  }
-
-  .trader-detail-header {
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-
-  .trader-detail-image {
-    max-width: 280px;
-    margin: 0 auto;
-  }
-
-  .trader-detail-name,
-  .trader-detail-role,
-  .trader-detail-description {
-    text-align: center;
-  }
-
-  .trader-detail-tags {
-    justify-content: center;
-  }
-}
-
-@media (max-width: 375px) {
-  .trader-detail-card {
-    padding: 14px;
-  }
-
-  .trader-detail-name {
-    font-size: 1.6rem;
-  }
-
-  .trader-offers-grid {
-    grid-template-columns: 1fr;
-  }
-}
 
 /* =========================
-   11. TEMA CLARO
+   12. TEMA CLARO
 ========================= */
-
-/* ==== Overrides tema claro ==== */
 
 body.light-theme {
   --bg-color: #e0e0e0;
@@ -1130,13 +1069,14 @@ body.light-theme #status {
 
 
 /* =========================
-   12. RESPONSIVE GLOBAL
+   13. RESPONSIVE GLOBAL
 ========================= */
 
 @media (max-width: 768px) {
   .nav-shell {
     padding: 0.35rem calc(0.75rem + 0.45rem) 0 calc(0.75rem + 0.45rem);
   }
+
   .hero-nav-item {
     margin-left: -14px;
   }
@@ -1179,12 +1119,41 @@ body.light-theme #status {
     padding: 6px 12px;
     font-size: 0.7rem;
   }
+
+  .item-detail-card {
+    padding: 18px;
+  }
+
+  .trader-detail-card {
+    padding: 18px;
+  }
+
+  .trader-detail-header {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .trader-detail-image {
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  .trader-detail-name,
+  .trader-detail-role,
+  .trader-detail-description {
+    text-align: center;
+  }
+
+  .trader-detail-tags {
+    justify-content: center;
+  }
 }
 
 @media (max-width: 375px) {
   .nav-shell {
     padding: 0.25rem calc(0.75rem + 0.3rem) 0 calc(0.75rem + 0.3rem);
   }
+
   .hero-nav-item {
     margin-left: -10px;
   }
@@ -1202,16 +1171,28 @@ body.light-theme #status {
   .hero-tab-label {
     font-size: 0.5rem;
   }
+
+  .trader-detail-card {
+    padding: 14px;
+  }
+
+  .trader-detail-name {
+    font-size: 1.6rem;
+  }
+
+  .trader-offers-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 
 /* =========================
-   13. RESPONSIVE LANDING
+   14. RESPONSIVE LANDING
 ========================= */
 
 @media (max-width: 768px) {
   body[data-page="landing"] .hero-layout {
-    padding: 0.45rem 0.55rem 0.5rem 0.55rem;
+    padding: 0.45rem 0.55rem 0.5rem;
   }
 
   body[data-page="landing"] .hero-main {
@@ -1228,9 +1209,9 @@ body.light-theme #status {
     align-items: center;
     justify-content: center;
     gap: 0.8rem;
-    text-align: center;
-    padding-top: 0;
     margin: 0 auto;
+    padding-top: 0;
+    text-align: center;
   }
 
   body[data-page="landing"] .logo-block {
@@ -1241,8 +1222,8 @@ body.light-theme #status {
   }
 
   body[data-page="landing"] .menu-block {
-    max-width: 260px;
     width: 100%;
+    max-width: 260px;
     margin-inline: auto;
   }
 
@@ -1253,9 +1234,9 @@ body.light-theme #status {
 
   body[data-page="landing"] .menu-link {
     min-height: 40px;
-    font-size: 0.82rem;
-    padding: 0.45rem 0.8rem;
     justify-content: center;
+    padding: 0.45rem 0.8rem;
+    font-size: 0.82rem;
   }
 
   body[data-page="landing"] .buy-card {
@@ -1264,8 +1245,8 @@ body.light-theme #status {
   }
 
   body[data-page="landing"] .buy-copy {
-    font-size: 0.85rem;
     padding: 0.65rem;
+    font-size: 0.85rem;
   }
 
   body[data-page="landing"] .buy-image-placeholder {
@@ -1284,14 +1265,14 @@ body.light-theme #status {
 
 @media (max-width: 375px) {
   body[data-page="landing"] .hero-layout {
-    padding: 0.35rem 0.35rem 0.35rem 0.35rem;
+    padding: 0.35rem;
   }
 
   body[data-page="landing"] .left-stack {
     min-height: calc(100dvh - 180px);
     gap: 0.6rem;
-    padding-top: 0;
     justify-content: center;
+    padding-top: 0;
   }
 
   body[data-page="landing"] .logo-block {
@@ -1310,8 +1291,8 @@ body.light-theme #status {
 
   body[data-page="landing"] .menu-link {
     min-height: 34px;
-    font-size: 0.72rem;
     padding: 0.35rem 0.65rem;
+    font-size: 0.72rem;
   }
 
   body[data-page="landing"] .buy-card {
@@ -1320,14 +1301,14 @@ body.light-theme #status {
   }
 
   body[data-page="landing"] .buy-copy {
-    font-size: 0.72rem;
     padding: 0.5rem;
+    font-size: 0.72rem;
   }
 
   body[data-page="landing"] .buy-image-placeholder {
     min-height: 72px;
-    font-size: 0.52rem;
     padding: 0.35rem;
+    font-size: 0.52rem;
   }
 
   body[data-page="landing"] .bottom-bar {
@@ -1337,7 +1318,7 @@ body.light-theme #status {
 
 
 /* =========================
-   14. RESPONSIVE TRADERS
+   15. RESPONSIVE TRADERS
 ========================= */
 
 @media (max-width: 768px) {
@@ -1347,20 +1328,25 @@ body.light-theme #status {
   }
 
   body[data-page="traders"] .landing-page {
-    height: auto;
     min-height: 100dvh;
+    height: auto;
     overflow: visible;
   }
 
   body[data-page="traders"] .hero-frame {
-    height: auto;
     min-height: 100dvh;
+    height: auto;
     overflow: visible;
   }
 
   body[data-page="traders"] .hero-layout {
-    height: auto;
     min-height: 100dvh;
+    height: auto;
+    padding: 0.35rem 0.45rem 0.4rem;
+  }
+
+  body[data-page="traders"] .hero-main {
+    align-items: flex-start;
   }
 
   body[data-page="traders"] .traders-main .container {
@@ -1385,16 +1371,16 @@ body.light-theme #status {
     font-size: 0.75rem;
   }
 
-  body[data-page="traders"] .traders-cta-wrap {
-    justify-content: center;
-  }
-
-  body[data-page="traders"] .traders-buy-card {
-    max-width: 280px;
+  body[data-page="traders"] .bottom-bar {
+    height: 10px;
   }
 }
 
 @media (max-width: 375px) {
+  body[data-page="traders"] .hero-layout {
+    padding: 0.25rem 0.3rem 0.3rem;
+  }
+
   body[data-page="traders"] .traders-content-wrap {
     max-width: 100%;
   }
@@ -1408,19 +1394,15 @@ body.light-theme #status {
   }
 
   body[data-page="traders"] .traders-title {
-    font-size: 1.05rem;
     padding: 0.25rem 0.7rem;
+    font-size: 1.05rem;
   }
 
   body[data-page="traders"] .trader-name {
     font-size: 0.68rem;
   }
 
-  body[data-page="traders"] .traders-buy-card {
-    max-width: 230px;
-  }
-
-  body[data-page="traders"] .traders-bottom-bar {
-    height: 12px;
+  body[data-page="traders"] .bottom-bar {
+    height: 8px;
   }
 }
