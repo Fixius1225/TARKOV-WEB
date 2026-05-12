@@ -135,7 +135,8 @@ a {
 .item-card,
 .item-detail-card,
 .trader-detail-card,
-.trader-offer-card {
+.trader-offer-card,
+.trader-detail-image {
   border: 1px solid var(--border-color);
 }
 
@@ -154,7 +155,8 @@ a {
 
 .item-card,
 .trader-card,
-.trader-offer-card {
+.trader-offer-card,
+.buy-card {
   transition: var(--transition-fast);
 }
 
@@ -368,7 +370,6 @@ body[data-page="traders"] .cta-wrap {
   border: 1px solid rgba(255,255,255,0.08);
   color: rgba(255,255,255,0.88);
   overflow: hidden;
-  transition: var(--transition-fast);
 }
 
 .buy-card:hover {
@@ -603,7 +604,11 @@ body[data-page="landing"] .right-visual-space {
 }
 
 .item-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   flex-grow: 1;
+  min-height: 88px;
   padding: 15px;
 }
 
@@ -613,9 +618,13 @@ body[data-page="landing"] .right-visual-space {
   color: var(--accent);
   font-size: 0.92rem;
   font-weight: 700;
+  line-height: 1.35;
+  min-height: calc(1.35em * 2);
 }
 
 .item-shortname {
+  display: block;
+  min-height: 1.1em;
   color: var(--text-dim);
   font-size: 0.72rem;
   text-transform: uppercase;
@@ -998,7 +1007,6 @@ body[data-page="traders"] .traders-bottom-bar {
 }
 
 .trader-offer-requirements {
-  margin-top: auto;
   padding-top: 10px;
   border-top: 1px solid var(--border-color);
 }
