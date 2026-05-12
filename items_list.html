@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Item Detail</title>
+  <title>Tarkov Items</title>
 
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
@@ -14,23 +14,33 @@
 
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body data-page="item-detail">
+<body data-page="items-list">
   <main class="page-shell">
     <div class="container py-4">
 
       <header id="site-nav"></header>
 
-      <header class="detail-topbar">
-        <a href="items_list.html" class="back-btn">← Volver al inventario</a>
+      <header class="page-header">
+        <a href="index.html" class="brand-link">
+          <img src="img/tarkov_img.png" alt="Tarkov" class="brand-logo">
+        </a>
 
-        <button id="theme-toggle" class="filter-btn" type="button">
-          Cambiar oscuro/claro
-        </button>
+        <div class="page-header-actions">
+          <button id="theme-toggle" class="filter-btn" type="button">
+            Cambiar oscuro/claro
+          </button>
+        </div>
       </header>
+
+      <section class="page-intro text-center">
+        <h1 class="page-title">API for Tarkov Items</h1>
+      </section>
+
+      <section id="controls"></section>
 
       <div id="status" class="status-message">Cargando...</div>
 
-      <section id="item" class="item-detail-wrapper"></section>
+      <section id="items" class="items-grid"></section>
     </div>
   </main>
 
