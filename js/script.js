@@ -14,11 +14,6 @@ const statusEl = document.getElementById('status');
 ========================= */
 
 /* ==== Mapeo de página activa ==== */
-/*
-  Esto NO crea pestañas nuevas.
-  Solo indica qué pestaña debe aparecer activa
-  según la página actual.
-*/
 function getActiveNavKey(pageName) {
   const map = {
     'landing': 'home',
@@ -132,7 +127,7 @@ function initTheme() {
 
 
 /* =========================
-   5. API / GRAPHQL
+   5. API 
 ========================= */
 
 /* ==== Request genérica ==== */
@@ -475,11 +470,6 @@ function initItemDetailPage() {
 ========================= */
 
 /* ==== Meta local del trader ==== */
-/*
-  El retrato sigue siendo local.
-  La descripción intenta venir de la API.
-  Si falla, usa fallback local.
-*/
 
 const TRADER_META = {
   prapor: {
@@ -659,15 +649,6 @@ function renderTraderOffers(barters, returnToUrl) {
 }
 
 /* ==== Carga de datos del trader ==== */
-/*
-  Primero intenta traer:
-  - traders con description
-  - barters
-
-  Si la description no existe en tu endpoint o da error,
-  hace fallback a una query solo de barters y usa
-  la descripción local.
-*/
 
 async function fetchTraderPageData(meta) {
   const fullQuery = `
@@ -788,7 +769,7 @@ function initTraderDetailPage() {
     return;
   }
 
-  document.title = `${meta.name} | Trader`;
+  document.title = `${meta.name} | Tarkov`;
 
   async function loadTraderData() {
     if (statusEl) {
