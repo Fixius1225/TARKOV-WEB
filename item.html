@@ -16,12 +16,13 @@
 </head>
 <body data-page="item-detail">
   <main class="page-shell">
-    <div class="container py-4">
-
+    <div class="nav-shell">
       <header id="site-nav"></header>
+    </div>
 
+    <div class="container py-4">
       <header class="detail-topbar">
-        <a href="items_list.html" class="back-btn">← Volver al inventario</a>
+        <a href="items_list.html" class="back-btn" id="back-link">← Volver al inventario</a>
 
         <button id="theme-toggle" class="filter-btn" type="button">
           Cambiar oscuro/claro
@@ -29,7 +30,6 @@
       </header>
 
       <div id="status" class="status-message">Cargando...</div>
-
       <section id="item" class="item-detail-wrapper"></section>
     </div>
   </main>

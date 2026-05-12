@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tarkov Items</title>
+  <title>Trader Detail</title>
 
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
@@ -14,32 +14,24 @@
 
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body data-page="items-list">
+<body data-page="trader-detail">
   <main class="page-shell">
     <div class="nav-shell">
       <header id="site-nav"></header>
     </div>
 
     <div class="container py-4">
-      <header class="page-header">
-        <a href="index.html" class="brand-link">
-          <img src="img/tarkov_img.png" alt="Tarkov" class="brand-logo">
-        </a>
+      <header class="detail-topbar">
+        <a href="traders.html" class="back-btn">← Volver a traders</a>
 
-        <div class="page-header-actions">
-          <button id="theme-toggle" class="filter-btn" type="button">
-            Cambiar oscuro/claro
-          </button>
-        </div>
+        <button id="theme-toggle" class="filter-btn" type="button">
+          Cambiar oscuro/claro
+        </button>
       </header>
 
-      <section class="page-intro text-center">
-        <h1 class="page-title">API for Tarkov Items</h1>
-      </section>
-
-      <section id="controls"></section>
       <div id="status" class="status-message">Cargando...</div>
-      <section id="items" class="items-grid"></section>
+
+      <section id="trader-detail" class="trader-detail-wrapper"></section>
     </div>
   </main>
 
