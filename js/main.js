@@ -227,7 +227,6 @@ if (themeBtn) {
 // SELECCIÓN DE MAPAS EN MAPA.HTML
 // ==========================================
 const MAP_ITEMS = document.querySelectorAll('.map-item');
-const MAP_DESCRIPTION = document.getElementById('map-description');
 
 if (MAP_ITEMS.length > 0) {
   function clearMapSelection() {
@@ -243,11 +242,6 @@ if (MAP_ITEMS.length > 0) {
 
       if (!alreadySelected) {
         item.classList.add('selected');
-        if (MAP_DESCRIPTION) {
-          MAP_DESCRIPTION.textContent = `${item.textContent.trim()} seleccionado.`;
-        }
-      } else if (MAP_DESCRIPTION) {
-        MAP_DESCRIPTION.textContent = 'Selecciona un mapa para ver más información';
       }
     });
   });
