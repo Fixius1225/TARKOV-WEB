@@ -330,6 +330,7 @@ body[data-page="traders"] .hero-frame {
 
 body[data-page="landing"] .hero-layout,
 body[data-page="traders"] .hero-layout {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -1410,4 +1411,99 @@ body.light-theme #status {
   body[data-page="traders"] .bottom-bar {
     height: 8px;
   }
+}
+
+/* =========================
+   AUDIO PLAYER CUSTOM
+========================= */
+
+.audio-player {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.custom-audio-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.audio-btn {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--accent);
+  padding: 5px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: var(--transition-fast);
+}
+
+.audio-btn:hover {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+}
+
+.progress-container {
+  width: 100px;
+  height: 6px;
+  background: var(--card-soft-bg);
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+  width: 0%;
+  transition: width 0.1s ease;
+}
+
+.volume-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.volume-slider {
+  width: 60px;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: var(--card-soft-bg);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
 }

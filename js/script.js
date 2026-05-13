@@ -814,12 +814,79 @@ function initTraderDetailPage() {
 
 
 /* =========================
+   10. AUDIO PLAYER
+========================= */
+
+function initAudioPlayer() {
+  const audio = document.getElementById('background-audio');
+  const playPauseBtn = document.getElementById('play-pause-btn');
+  const playIcon = document.getElementById('play-icon');
+  const pauseIcon = document.getElementById('pause-icon');
+  const progressContainer = document.querySelector('.progress-container');
+  const progressBar = document.getElementById('progress-bar');
+  const muteBtn = document.getElementById('mute-btn');
+  const volumeSlider = document.getElementById('volume-slider');
+
+  if (!audio || !playPauseBtn) return;
+
+  // Play/Pause
+  playPauseBtn.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play();
+      playIcon.style.display = 'none';
+      pauseIcon.style.display = 'inline';
+    } else {
+      audio.pause();
+      playIcon.style.display = 'inline';
+      pauseIcon.style.display = 'none';
+    }
+  });
+
+  // Progress bar
+  audio.addEventListener('timeupdate', () => {
+    const progress = (audio.currentTime / audio.duration) * 100;
+    progressBar.style.width = progress + '%';
+  });
+
+  progressContainer.addEventListener('click', (e) => {
+    const rect = progressContainer.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const width = rect.width;
+    const percentage = clickX / width;
+    audio.currentTime = percentage * audio.duration;
+  });
+
+  // Volume
+  volumeSlider.addEventListener('input', () => {
+    audio.volume = volumeSlider.value;
+  });
+
+  muteBtn.addEventListener('click', () => {
+    if (audio.muted) {
+      audio.muted = false;
+      muteBtn.textContent = '🔊';
+    } else {
+      audio.muted = true;
+      muteBtn.textContent = '🔇';
+    }
+  });
+
+  // Initial state
+  if (!audio.paused) {
+    playIcon.style.display = 'none';
+    pauseIcon.style.display = 'inline';
+  }
+}
+
+
+/* =========================
    9. INICIALIZACIÓN GLOBAL
 ========================= */
 
 document.addEventListener('DOMContentLoaded', () => {
   renderSiteNav();
   initTheme();
+  initAudioPlayer();
 
   if (page === 'items-list') {
     initItemsListPage();
