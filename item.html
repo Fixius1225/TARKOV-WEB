@@ -33,6 +33,25 @@
       <div id="status" class="status-message">Cargando...</div>
       <section id="item" class="item-detail-wrapper"></section>
     </div>
+    <div class="audio-player">
+              <audio id="background-audio" autoplay loop>
+                <source src="musica/Geneburn - Rules of Engagement.mp3" type="audio/mpeg">
+                Tu navegador no soporta el elemento de audio.
+              </audio>
+              <div class="custom-audio-controls">
+                <button id="play-pause-btn" class="audio-btn">
+                  <span id="play-icon">▶</span>
+                  <span id="pause-icon" style="display: none;">⏸</span>
+                </button>
+                <div class="progress-container">
+                  <div id="progress-bar" class="progress-bar"></div>
+                </div>
+                <div class="volume-container">
+                  <button id="mute-btn" class="audio-btn">🔊</button>
+                  <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.5" class="volume-slider">
+                </div>
+              </div>
+            </div>
   </main>
 
   <script src="js/script.js" defer></script>
