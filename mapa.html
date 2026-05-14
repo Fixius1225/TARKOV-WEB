@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mapas - Tarkov</title>
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+    crossorigin="anonymous"
+  >
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="maps">
+  <main class="page-shell">
+    <div class="nav-shell">
+      <header id="site-nav"></header>
+    </div>
+
+    <div class="container py-4">
+      <header class="detail-topbar mb-4">
+        <h1 class="traders-title" style="font-size: 1.5rem; margin: 0;">Mapas de Tarkov</h1>
+        <button id="theme-toggle" class="filter-btn" type="button">
+          Cambiar oscuro/claro
+        </button>
+      </header>
+
+      <div class="row g-4">
+        <div class="col-md-4 col-lg-3">
+          <div class="trader-detail-card p-3">
+            <h2 class="trader-section-title">Disponibles</h2>
+            <div class="list-group list-group-flush custom-map-list">
+              <button class="map-item-btn" data-map="the-lab">THE LAB</button>
+              <button class="map-item-btn" data-map="ground-zero">GROUND ZERO</button>
+              <button class="map-item-btn" data-map="streets">STREETS OF TARKOV</button>
+              <button class="map-item-btn" data-map="factory">FACTORY</button>
+              <button class="map-item-btn" data-map="woods">WOODS</button>
+              <button class="map-item-btn" data-map="customs">CUSTOMS</button>
+              <button class="map-item-btn" data-map="interchange">INTERCHANGE</button>
+              <button class="map-item-btn" data-map="reserve">RESERVE</button>
+              <button class="map-item-btn" data-map="lighthouse">LIGHTHOUSE</button>
+              <button class="map-item-btn" data-map="shoreline">SHORELINE</button>
+              <div class="map-item-disabled">TERMINAL <span>PRÓXIMAMENTE</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-8 col-lg-9">
+          <div id="map-details-container" class="trader-detail-card d-flex align-items-center justify-content-center p-2">
+            <div id="map-display" class="text-center">
+              <img src="img/Map.webp" alt="Mapa de Tarkov" class="img-fluid map-image">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/script.js" defer></script>
+</body>
+</html>

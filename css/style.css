@@ -1074,6 +1074,78 @@ body.light-theme #status {
 
 
 /* =========================
+   LÓGICA MAPA
+========================= */
+
+/* Estilos específicos para la lista de mapas */
+.custom-map-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.map-item-btn {
+  background: var(--card-soft-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 10px 15px;
+  text-align: left;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  transition: var(--transition-fast);
+  cursor: pointer;
+}
+
+/* podemos cambiar el color al pasar el ratón (hover) */
+.map-item-btn:hover {
+  border-color: #ff4444;
+  background: rgba(255, 68, 68, 0.05);
+}
+
+
+
+.map-item-btn.active {
+  border-left: 2px solid transparent; /* O el color de borde original */
+  background: var(--card-soft-bg);    /* Usamos el mismo fondo que los otros */
+  color: var(--text-main);           /* El mismo color de texto */
+  cursor: default;
+}               
+
+
+.map-item-disabled {
+  padding: 10px 15px;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  background: rgba(255,255,255,0.05);
+  display: flex;
+  justify-content: space-between;
+}
+
+.map-item-disabled span {
+  font-size: 0.6rem;
+  background: #444;
+  padding: 2px 5px;
+}
+
+/* Contenedor del mapa */
+#map-details-container {
+  background: var(--card-bg); /* Mantiene el fondo oscuro de tu tema */
+  border: 1px solid var(--border-color);
+  display: inline-block; /* Hace que el ancho también se ajuste al contenido si es necesario */
+  width: 100%; /* Permite que use el ancho de la columna de Bootstrap */
+  overflow: hidden; /* Evita que la imagen se salga de los bordes redondeados */
+}
+
+/* Ajuste de la imagen */
+.map-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm); /* Mantiene la estética de tus otras tarjetas */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5); /* Le da un poco de profundidad */
+}
+
+/* =========================
    13. RESPONSIVE GLOBAL
 ========================= */
 
