@@ -1268,8 +1268,27 @@ body.light-theme #status {
 ========================= */
 
 @media (max-width: 768px) {
+    body[data-page="landing"] {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  body[data-page="landing"] .landing-page {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+
   body[data-page="landing"] .hero-layout {
     padding: 0.45rem 0.55rem 0.5rem;
+    height: auto;
+    min-height: 100dvh;
+  }
+
+  body[data-page="landing"] .hero-frame {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
   }
 
   body[data-page="landing"] .hero-main {
