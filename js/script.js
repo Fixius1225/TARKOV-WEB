@@ -21,7 +21,7 @@ function getActiveNavKey(pageName) {
     'item-detail': 'stash',
     'traders': 'traders',
     'trader-detail': 'traders',
-    'mapa': 'map',
+    'maps': 'map',
   };
 
   return map[pageName] || 'home';
@@ -812,11 +812,13 @@ function initTraderDetailPage() {
 
 
 /* =========================
-   10. AUDIO PLAYER
+   9. AUDIO SYSTEM
 ========================= */
 
-function initAudioPlayer() {
+function initAudioSystem() {
   const audio = document.getElementById('background-audio');
+  if (!audio) return;
+
   const playPauseBtn = document.getElementById('play-pause-btn');
   const playIcon = document.getElementById('play-icon');
   const pauseIcon = document.getElementById('pause-icon');
@@ -825,66 +827,163 @@ function initAudioPlayer() {
   const muteBtn = document.getElementById('mute-btn');
   const volumeSlider = document.getElementById('volume-slider');
 
-  if (!audio || !playPauseBtn) return;
+  const savedTime = parseFloat(localStorage.getItem('bgAudioTime') || '0');
+  const savedPlaying = localStorage.getItem('bgAudioPlaying') === 'true';
+  const savedVolume = parseFloat(localStorage.getItem('bgAudioVolume') || '0.5');
+  const savedMuted = localStorage.getItem('bgAudioMuted') === 'true';
 
-  // Play/Pause
-  playPauseBtn.addEventListener('click', () => {
+  /* ==== Helpers ==== */
+
+  function updatePlayIcons() {
+    if (!playIcon || !pauseIcon) return;
+
     if (audio.paused) {
-      audio.play();
-      playIcon.style.display = 'none';
-      pauseIcon.style.display = 'inline';
-    } else {
-      audio.pause();
       playIcon.style.display = 'inline';
       pauseIcon.style.display = 'none';
-    }
-  });
-
-  // Progress bar
-  audio.addEventListener('timeupdate', () => {
-    const progress = (audio.currentTime / audio.duration) * 100;
-    progressBar.style.width = progress + '%';
-  });
-
-  progressContainer.addEventListener('click', (e) => {
-    const rect = progressContainer.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const width = rect.width;
-    const percentage = clickX / width;
-    audio.currentTime = percentage * audio.duration;
-  });
-
-  // Volume
-  volumeSlider.addEventListener('input', () => {
-    audio.volume = volumeSlider.value;
-  });
-
-  muteBtn.addEventListener('click', () => {
-    if (audio.muted) {
-      audio.muted = false;
-      muteBtn.textContent = '🔊';
     } else {
-      audio.muted = true;
-      muteBtn.textContent = '🔇';
+      playIcon.style.display = 'none';
+      pauseIcon.style.display = 'inline';
     }
+  }
+
+  function updateMuteIcon() {
+    if (!muteBtn) return;
+    muteBtn.textContent = audio.muted || audio.volume === 0 ? '🔇' : '🔊';
+  }
+
+  function updateProgress() {
+    if (!progressBar || !audio.duration) return;
+    const progress = (audio.currentTime / audio.duration) * 100;
+    progressBar.style.width = `${progress}%`;
+  }
+
+  function saveAudioState() {
+    localStorage.setItem('bgAudioTime', String(audio.currentTime));
+    localStorage.setItem('bgAudioPlaying', String(!audio.paused));
+    localStorage.setItem('bgAudioVolume', String(audio.volume));
+    localStorage.setItem('bgAudioMuted', String(audio.muted));
+  }
+
+  async function tryPlayAudio() {
+    try {
+      await audio.play();
+    } catch (error) {
+      console.warn('El navegador ha bloqueado la reproducción automática.', error);
+    }
+  }
+
+  /* ==== Estado inicial ==== */
+
+  audio.volume = !Number.isNaN(savedVolume) ? savedVolume : 0.5;
+  audio.muted = savedMuted;
+
+  if (volumeSlider) {
+    volumeSlider.value = String(audio.volume);
+  }
+
+  const applySavedTime = () => {
+    if (!Number.isNaN(savedTime) && savedTime > 0) {
+      audio.currentTime = savedTime;
+    }
+  };
+
+  if (audio.readyState >= 1) {
+    applySavedTime();
+  } else {
+    audio.addEventListener('loadedmetadata', applySavedTime, { once: true });
+  }
+
+  updatePlayIcons();
+  updateMuteIcon();
+  updateProgress();
+
+  /* ==== Reanudar audio automáticamente ==== */
+  if (savedPlaying || page === 'landing') {
+    tryPlayAudio();
+  }
+
+  /* ==== Eventos del audio ==== */
+
+  audio.addEventListener('timeupdate', () => {
+    updateProgress();
+    saveAudioState();
   });
 
-  // Initial state
-  if (!audio.paused) {
-    playIcon.style.display = 'none';
-    pauseIcon.style.display = 'inline';
+  audio.addEventListener('play', () => {
+    updatePlayIcons();
+    saveAudioState();
+  });
+
+  audio.addEventListener('pause', () => {
+    updatePlayIcons();
+    saveAudioState();
+  });
+
+  audio.addEventListener('volumechange', () => {
+    updateMuteIcon();
+    saveAudioState();
+  });
+
+  /* ==== Botón Play / Pause ==== */
+
+  if (playPauseBtn) {
+    playPauseBtn.addEventListener('click', async () => {
+      if (audio.paused) {
+        await tryPlayAudio();
+      } else {
+        audio.pause();
+      }
+
+      updatePlayIcons();
+    });
+  }
+
+  /* ==== Barra de progreso ==== */
+
+  if (progressContainer) {
+    progressContainer.addEventListener('click', (e) => {
+      if (!audio.duration) return;
+
+      const rect = progressContainer.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const percentage = clickX / rect.width;
+
+      audio.currentTime = percentage * audio.duration;
+      updateProgress();
+      saveAudioState();
+    });
+  }
+
+  /* ==== Volumen ==== */
+
+  if (volumeSlider) {
+    volumeSlider.addEventListener('input', () => {
+      audio.volume = Number(volumeSlider.value);
+      audio.muted = audio.volume === 0;
+      updateMuteIcon();
+      saveAudioState();
+    });
+  }
+
+  /* ==== Mute ==== */
+
+  if (muteBtn) {
+    muteBtn.addEventListener('click', () => {
+      audio.muted = !audio.muted;
+      updateMuteIcon();
+      saveAudioState();
+    });
   }
 }
 
-
 /* =========================
-   9. INICIALIZACIÓN GLOBAL
+   10. INICIALIZACIÓN GLOBAL
 ========================= */
 
 document.addEventListener('DOMContentLoaded', () => {
   renderSiteNav();
   initTheme();
-  initAudioPlayer();
+  initAudioSystem();
 
   if (page === 'items-list') {
     initItemsListPage();
