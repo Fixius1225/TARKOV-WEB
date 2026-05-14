@@ -358,7 +358,7 @@ body[data-page="traders"] .hero-bottom-zone {
 body[data-page="landing"] .cta-wrap,
 body[data-page="traders"] .cta-wrap {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 0.35rem;
 }
 
@@ -1284,7 +1284,6 @@ body.light-theme #status {
     width: 100%;
     min-height: calc(100dvh - 210px);
     align-items: center;
-    justify-content: center;
     gap: 0.8rem;
     margin: 0 auto;
     padding-top: 0;
@@ -1336,7 +1335,9 @@ body.light-theme #status {
   }
 
   body[data-page="landing"] .cta-wrap {
+    flex-direction: column;
     justify-content: center;
+    align-items: center
   }
 }
 
@@ -1348,7 +1349,6 @@ body.light-theme #status {
   body[data-page="landing"] .left-stack {
     min-height: calc(100dvh - 180px);
     gap: 0.6rem;
-    justify-content: center;
     padding-top: 0;
   }
 
@@ -1489,22 +1489,21 @@ body.light-theme #status {
 ========================= */
 
 .audio-player {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
+  display: flex;
+  width: 100%;
+  max-width: 300px;
   background: var(--panel-bg);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-sm);
   padding: 10px;
-  display: flex;
   align-items: center;
-  gap: 10px;
+  transition: var(--transition-fast);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  z-index: 10;
 }
 
 .custom-audio-controls {
   display: flex;
+  width: 100%;
   align-items: center;
   gap: 10px;
 }
@@ -1527,7 +1526,7 @@ body.light-theme #status {
 }
 
 .progress-container {
-  width: 100px;
+  width: 100%;
   height: 6px;
   background: var(--card-soft-bg);
   border-radius: 3px;
@@ -1547,10 +1546,20 @@ body.light-theme #status {
   display: flex;
   align-items: center;
   gap: 5px;
+  justify-content: space-between;
+  flex: 1 1 0;
+}
+
+.play-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: space-between;
+  flex: 1 1 0;
 }
 
 .volume-slider {
-  width: 60px;
+  width: 100%;
   -webkit-appearance: none;
   appearance: none;
   height: 4px;
@@ -1577,4 +1586,18 @@ body.light-theme #status {
   border-radius: 50%;
   cursor: pointer;
   border: none;
+}
+
+/* audio player */
+
+@media (max-width: 768px) {
+  .audio-player {
+    max-width: 280px
+  }
+}
+
+@media (max-width: 375px) {
+  .audio-player {
+    max-width: 230px;
+  }
 }
