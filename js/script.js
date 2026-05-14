@@ -40,7 +40,7 @@ function renderSiteNav() {
     { key: 'home', label: 'Home', href: 'index.html' },
     { key: 'stash', label: 'Stash', href: 'items_list.html' },
     { key: 'traders', label: 'Traders', href: 'traders.html' },
-    { key: 'maps', label: 'Maps', href: '#' },
+    { key: 'maps', label: 'Maps', href: 'mapa.html' },
     { key: 'hideout', label: 'Hideout', href: '#' }
   ];
 
@@ -899,4 +899,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (page === 'trader-detail') {
     initTraderDetailPage();
   }
+
+  
 });
