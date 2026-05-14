@@ -21,8 +21,7 @@ function getActiveNavKey(pageName) {
     'item-detail': 'stash',
     'traders': 'traders',
     'trader-detail': 'traders',
-    'maps': 'maps',
-    'hideout': 'hideout'
+    'mapa': 'map',
   };
 
   return map[pageName] || 'home';
@@ -40,8 +39,7 @@ function renderSiteNav() {
     { key: 'home', label: 'Home', href: 'index.html' },
     { key: 'stash', label: 'Stash', href: 'items_list.html' },
     { key: 'traders', label: 'Traders', href: 'traders.html' },
-    { key: 'maps', label: 'Maps', href: 'mapa.html' },
-    { key: 'hideout', label: 'Hideout', href: '#' }
+    { key: 'map', label: 'Map', href: 'mapa.html' },
   ];
 
   navHost.innerHTML = `
